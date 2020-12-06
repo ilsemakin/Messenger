@@ -5,7 +5,13 @@ export default (state, action) => {
         ...state,
         joined: true,
         userName: action.payload.userName,
-        roomId: action.payload.roomId
+        roomId: action.payload.roomId,
+      };
+      
+    case 'USER_STATUS':
+      return {
+        ...state,
+        users: action.payload,
       };
 
     default:
