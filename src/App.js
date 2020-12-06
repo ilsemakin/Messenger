@@ -1,6 +1,7 @@
 import React from 'react';
 
-import JoinBlock from './components/Registration';
+import Registration from './components/Registration';
+import Chat from './components/Chat';
 
 import socket from './socket';
 import axios from 'axios';
@@ -11,12 +12,24 @@ function App() {
     joined: false, roomId: null, userName: null, users: [], messages: [],
   });
 
-  const onLogin = () => {
-    dispatch({type: 'JOINED', payload: true});
+  const onLogin = async (obj) => {
+    dispatch({type: 'JOINED', payload: obj});
+    socket.emit('ROOM:JOINING'); // Submitting to the backend
+    const {data} = await axios.get(`/home/${obj.roomId}`); // Server request with actual data
+    listUsers(data.users);
   };
 
+  const listUsers = (users) => {dispatch({type: 'USER_STATUS', payload: users})};
+
+  /* One rerender - one listener */
+  React.useEffect(() => {
+    socket.on('ROOM:USER_STATUS', listUsers);
+  }, []);
+
+  window.socket = socket; // For console
+
   return(
-  <div className="wrapper">{!state.joined && <JoinBlock onLogin={onLogin}/>}</div>
+  <div className="wrapper">{!state.joined ? <Registration onLogin={onLogin}/> : <Chat {...state}/>}</div>
   );
 }
 
