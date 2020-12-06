@@ -9,28 +9,28 @@ import reducer from './reducer';
 
 function App() {
   const [state, dispatch] = React.useReducer(reducer, {
-    joined: false, roomId: null, userName: null, users: [], messages: [],
+    joined: false, roomId: null, userName: null, users: [], messages: []
   });
 
   const onLogin = async (obj) => {
-    dispatch({type: 'JOINED', payload: obj});
-    socket.emit('ROOM:JOINING'); // Submitting to the backend
-    const {data} = await axios.get(`/home/${obj.roomId}`); // Server request with actual data
-    listUsers(data.users);
+    dispatch({ type: 'JOINED', payload: obj });
+    socket.emit('ROOM:JOIN', obj); // Submitting to the backend
+    const { data } = await axios.get(`/home/${obj.roomId}`); // Server request with actual data
+    dispatch({ type: 'SET_DATA', payload: data });
   };
 
-  const listUsers = (users) => {dispatch({type: 'USER_STATUS', payload: users})};
+  const setUsers = (users) => { dispatch({ type: 'SET_USERS', payload: users })};
+  const addMessage = (message) => { dispatch({ type: 'NEW_MESSAGE', payload: message })};
 
   /* One rerender - one listener */
   React.useEffect(() => {
-    socket.on('ROOM:USER_STATUS', listUsers);
+    socket.on('ROOM:SET_USERS', setUsers);
+    socket.on('ROOM:NEW_MESSAGE', addMessage);
   }, []);
 
   window.socket = socket; // For console
 
-  return(
-  <div className="wrapper">{!state.joined ? <Registration onLogin={onLogin}/> : <Chat {...state}/>}</div>
-  );
+  return(<div className="wrapper">{!state.joined ? <Registration onLogin={onLogin}/> : <Chat {...state} onAddMessage={addMessage}/>}</div>);
 }
 
 export default App;
