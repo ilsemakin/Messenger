@@ -1,23 +1,26 @@
 /* Connecting the framework */
 const express = require('express');
 
-const app = express(); // Server application
+/* Server application */
+const app = express();
 
 /* To process queries logic */
 const server = require('http').createServer(app); 
 const io = require('socket.io')(server);
 
+/* We connect an intermediary */
 app.use(express.json());
 
-const rooms = new Map(); // Storing rooms
+/* Storing rooms */
+const rooms = new Map();
 
 app.get('/home', (req, res) => {
   res.json(rooms);
 });
 
 app.post('/home', (req, res) => {
-  const { rooId, userName } = req.body;
-  if (!rooms.has(roomId)) { rooms.set(rooId, new Map([ ['users', new Map()], ['messages', []] ])); }
+  const { roomId, userName } = req.body;
+  if (!rooms.has(roomId)) { rooms.set(roomId, new Map([ ['users', new Map()], ['messages', []] ])); }
   res.send();
 });
 
