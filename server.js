@@ -7,14 +7,17 @@ const app = express(); // Server application
 const server = require('http').createServer(app); 
 const io = require('socket.io')(server);
 
+const rooms = new Map(); // Storing rooms
 
-
-app.get('/user', (req, res) => {
-  console.log("Hello");
-  res.json();
+app.get('/home', (req, res) => {
+  res.json(rooms);
 });
 
-server.listen(3000, (error) => {
+io.on('connection', (socket) => {
+  console.log('user connected', socket.id);
+});
+
+server.listen(8080, (error) => {
   if (error) { throw Error(error); }
   console.log("Server started!");
 });
