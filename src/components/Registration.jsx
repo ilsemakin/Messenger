@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-function Registration( {onLogin} ) {
+function Registration({onLogin}) {
   const [roomId, setRoomId] = React.useState('');
   const [userName, setUserName] = React.useState('');
   const [isLoading, setLoading] = React.useState(false);
@@ -9,9 +9,11 @@ function Registration( {onLogin} ) {
   /* Login check */
   const onEnter = async () => {
     if (!roomId || !userName) { return alert('Заполните пустые поля'); }
-    console.log(roomId, userName);
-    await axios.post('/home', {roomId, userName}).then(onLogin);
-  }
+    const obj = {roomId, userName};
+    setLoading(true);
+    await axios.post('/home', obj);
+    onLogin(obj);
+  };
 
   return(
     <div className="join-block">
