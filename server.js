@@ -24,15 +24,15 @@ app.get('/home/:id', (req, res) => {
   */
   const obj = rooms.has(roomId) ? {
     users: [...rooms.get(roomId).get('users').values()],
-    messages: [...rooms.get(roomId).get('messages').values()],
-  } : {users: [], messages: []};
+    messages: [...rooms.get(roomId).get('messages').values()]
+  } : { users: [], messages: [] };
 
   res.json(obj);
 });
 
 app.post('/home', (req, res) => {
-  const { roomId, userName } = req.body;
-  if (!rooms.has(roomId)) { rooms.set(roomId, new Map([ ['users', new Map()], ['messages', []] ])); }
+  const {roomId, userName} = req.body;
+  if (!rooms.has(roomId)) { rooms.set(roomId, new Map([ ['users', new Map()], ['messages', []], ]),); }
   res.send();
 });
 
@@ -42,16 +42,23 @@ io.on('connection', (socket) => {
     socket.join(roomId); // Join a user to a room
     rooms.get(roomId).get('users').set(socket.id, userName); // Transferring user data to the room
     const users = [...rooms.get(roomId).get('users').values()]; // Save all connected users
-    socket.to(roomId).broadcast.emit('ROOM:USER_STATUS', users); // Notifying all users about a new connection
+    socket.to(roomId).emit('ROOM:SET_USERS', users); // Notifying all users about a new connection
+  });
+
+  socket.on('ROOM:NEW_MESSAGE', ({roomId, userName, text}) => {
+    const obj = {userName, text}; // User message
+    rooms.get(roomId).get('messages').push(obj); // Save the user's message
+    socket.to(roomId).broadcast.emit('ROOM:NEW_MESSAGE', obj); // Passing a message to users
   });
 
   socket.on('disconnect', () => {
     rooms.forEach((value, roomId) => {
       if (value.get('users').delete(socket.id)) {
         const users = [...value.get('users').values()]; // Save all connected users
-        socket.to(roomId).broadcast.emit('ROOM:USER_STATUS', users); // Alerting all users when a user is disconnected
+        socket.to(roomId).broadcast.emit('ROOM:SET_USERS', users); // Alerting all users when a user is disconnected
       }
     });
+    console.log('User disconnected', socket.id);
   });
 
   console.log('User connected', socket.id);
