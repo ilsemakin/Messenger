@@ -15,7 +15,9 @@ function App() {
     dispatch({type: 'JOINED', payload: true});
   };
 
-  return(<div className="wrapper"><JoinBlock onLogin={onLogin} /></div>);
+  return(
+  <div className="wrapper">{!state.joined && <JoinBlock onLogin={onLogin}/>}</div>
+  );
 }
 
 export default App;
