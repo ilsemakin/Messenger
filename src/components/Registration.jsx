@@ -19,8 +19,10 @@ function Registration({onLogin}) {
     <div className="join-block">
       <img class="lock_image" src="/img/lock.jpg" alt="lock" />
       <h2>Регистрация</h2>
-      <input type="text" placeholder='Номер комнаты' value={roomId} onChange={(e) => setRoomId(e.target.value)}></input>
-      <input type="text" placeholder='Имя' value={userName} onChange={(e) => setUserName(e.target.value)}></input>
+      <input type="text" placeholder='Номер комнаты' value={roomId} onChange={(e) => setRoomId(e.target.value)}/>
+      <input  type="text" placeholder='Имя' value={userName} onChange={(e) => setUserName(e.target.value)}
+        onKeyDown={(ev) => { if (ev.key === 'Enter') {onEnter()}}}
+      />
       <button disabled={isLoading} onClick={onEnter} className="btn btn-success">{isLoading ? 'ВХОД...' : 'ВОЙТИ'}</button>
     </div>
   );
