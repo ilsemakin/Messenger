@@ -10,7 +10,12 @@ function Chat({ users, messages, userName, roomId, onAddMessage }) {
     // return /[^\s]/gim.test(tex);
     return text.trim() !== '';
  }
-
+ function turnOnScroll(length){
+   if (length>6){
+   return "chat-users-scroll"
+  }
+   else return "";
+ }
   /* Handling message sending */
   const onSendMessage = () => {
     if (checkInput(messageValue)) {
@@ -29,7 +34,10 @@ function Chat({ users, messages, userName, roomId, onAddMessage }) {
         Комната: <b>{roomId}</b>
         <hr />
         <b>Онлайн ({users.length}):</b>
+        
+          <div className = {turnOnScroll(users.length)}>
         <ul>{users.map((name, index) => <li key={name + index}>{name}</li>)}</ul>
+        </div>
       </div>
       <div className="chat-messages">
         <div ref={messagesRef} className="messages">
