@@ -1,7 +1,7 @@
 # Messenger
 
 ## First install
-### `yarn`
+### `npm`
 
 
 ## How to start the application
