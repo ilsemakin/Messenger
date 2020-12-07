@@ -5,16 +5,24 @@ function Chat({ users, messages, userName, roomId, onAddMessage }) {
   const [messageValue, setMessageValue] = React.useState('');
   const messagesRef = React.useRef(null);
 
+  /* Check for empty input */
+  function checkInput (text) {
+    // return /[^\s]/gim.test(tex);
+    return text.trim() !== '';
+ }
+
   /* Handling message sending */
   const onSendMessage = () => {
-    socket.emit('ROOM:NEW_MESSAGE', {userName, roomId, text: messageValue});
-    onAddMessage({userName, text: messageValue}); // Sending a message to ourselves
-    setMessageValue('');
+    if (checkInput(messageValue)) {
+      socket.emit('ROOM:NEW_MESSAGE', {userName, roomId, text: messageValue});
+      onAddMessage({userName, text: messageValue}); // Sending a message to ourselves
+      setMessageValue('');
+    }
   };
 
   /* Scrolls messages down */
   React.useEffect(() => { messagesRef.current.scrollTo(0, 99999) }, [messages]);
-
+  
   return (
     <div className="chat">
       <div className="chat-users">
@@ -38,10 +46,12 @@ function Chat({ users, messages, userName, roomId, onAddMessage }) {
           <textarea
             value={messageValue}
             onChange={(e) => setMessageValue(e.target.value)}
+            onKeyDown={(ev) => { if (ev.key === 'Enter') { ev.preventDefault(); onSendMessage(); }}}
             className="form-control"
-            rows="3"></textarea>
+            rows="3">
+          </textarea>
           <button onClick={onSendMessage} type="button" className="btn btn-primary">
-            Отправить
+          Отправить
           </button>
         </form>
       </div>
