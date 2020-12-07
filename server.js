@@ -56,7 +56,8 @@ io.on('connection', (socket) => {
       if (value.get('users').delete(socket.id)) {
         const users = [...value.get('users').values()]; // Save all connected users
         socket.to(roomId).broadcast.emit('ROOM:SET_USERS', users); // Alerting all users when a user is disconnected
-      }
+        if (users.length == 0) { rooms.clear(roomId) }; // Deleting a room without clients 
+      };
     });
     console.log('User disconnected', socket.id);
   });
