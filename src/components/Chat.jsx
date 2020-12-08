@@ -24,7 +24,9 @@ function Chat({ users, messages, userName, roomId, onAddMessage }) {
       setMessageValue('');
     }
   };
-
+  const refreshPage = () => {
+    window.location.reload()
+} 
   /* Scrolls messages down */
   React.useEffect(() => { messagesRef.current.scrollTo(0, 99999) }, [messages]);
   
@@ -32,9 +34,9 @@ function Chat({ users, messages, userName, roomId, onAddMessage }) {
     <div className="chat">
       <div className="chat-users">
         Комната: <b>{roomId}</b>
+        <button type="button" className="btn exit-button" onClick={refreshPage}>Покинуть</button>
         <hr />
         <b>Онлайн ({users.length}):</b>
-        
           <div className = {turnOnScroll(users.length)}>
         <ul>{users.map((name, index) => <li key={name + index}>{name}</li>)}</ul>
         </div>
@@ -52,17 +54,21 @@ function Chat({ users, messages, userName, roomId, onAddMessage }) {
         </div>
         <form>
           <textarea
+            placeholder = "Ваше сообщение..."
             value={messageValue}
             onChange={(e) => setMessageValue(e.target.value)}
             onKeyDown={(ev) => { if (ev.key === 'Enter') { ev.preventDefault(); onSendMessage(); }}}
             className="form-control"
             rows="3">
           </textarea>
+          <div className = "send-button">
           <button onClick={onSendMessage} type="button" className="btn btn-primary">
-          Отправить
+          <img className = "send-image" src="https://cdn.onlinewebfonts.com/svg/img_164228.png" alt="Отправить"/>
           </button>
+          </div>
         </form>
       </div>
+      
     </div>
   );
 }
