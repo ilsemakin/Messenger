@@ -10,8 +10,6 @@ function Chat({ users, messages, userName, roomId, onAddMessage }) {
 
   /* Check for empty input */
   function checkInput(text) {
-    console.log(users)
-    // return /[^\s]/gim.test(tex);
     return text.trim() !== '';
  }
 
@@ -51,7 +49,7 @@ function Chat({ users, messages, userName, roomId, onAddMessage }) {
   }
 
   /* Scrolls messages down */
-  React.useEffect(() => { messagesRef.current.scrollTo(0, 99999) }, [messages]);
+  React.useEffect(() => { messagesRef.current.scrollTo(0, 999999) }, [messages]);
   
   return (
     <div className="chat">
