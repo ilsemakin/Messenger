@@ -4,9 +4,14 @@ import socket from '../socket';
 function Chat({ users, messages, userName, roomId, onAddMessage }) {
   const [messageValue, setMessageValue] = React.useState('');
   const messagesRef = React.useRef(null);
-
+  let currentUser = false;
+  const name = userName.trim()
+  if (currentUser === name){
+    currentUser = true
+  }
   /* Check for empty input */
   function checkInput (text) {
+    console.log(users)
     // return /[^\s]/gim.test(tex);
     return text.trim() !== '';
  }
@@ -16,6 +21,7 @@ function Chat({ users, messages, userName, roomId, onAddMessage }) {
   }
    else return "";
  }
+
   /* Handling message sending */
   const onSendMessage = () => {
     if (checkInput(messageValue)) {
@@ -27,6 +33,25 @@ function Chat({ users, messages, userName, roomId, onAddMessage }) {
   const refreshPage = () => {
     window.location.reload()
 } 
+  const choosePosition = (message, user1, user2) => {
+    if (user1===user2){
+      return(
+      <div className="message self-message" align ="right">
+            <p>{message.text}</p>
+            <div>
+              <span>{message.userName}</span>
+            </div>
+      </div>)
+    }else{
+      return(
+      <div className="message other" >
+            <p>{message.text}</p>
+            <div>
+              <span>{message.userName}</span>
+            </div>
+      </div>)
+    }
+  }
   /* Scrolls messages down */
   React.useEffect(() => { messagesRef.current.scrollTo(0, 99999) }, [messages]);
   
@@ -44,12 +69,7 @@ function Chat({ users, messages, userName, roomId, onAddMessage }) {
       <div className="chat-messages">
         <div ref={messagesRef} className="messages">
           {messages.map((message) => (
-            <div className="message">
-              <p>{message.text}</p>
-              <div>
-                <span>{message.userName}</span>
-              </div>
-            </div>
+            choosePosition(message, message.userName, userName)
           ))}
         </div>
         <form>

@@ -23,8 +23,11 @@ button {
   color: #aa2c06;
   background-color: #ffffff00;
   border-color: #000000;
-  border-radius: 50%;
-  transform: translateX(1270%);
+  border-radius: 15%;
+  position: relative;
+  padding: 5px 40px;
+  left: 600px
+  /* transform: translateX(1270%); */
 }
 
 .btn-primary:hover {
@@ -90,12 +93,10 @@ button {
   height: 600px;
   position: absolute;
   right: 25%;
- /* margin-left: 35%;
-  margin-right: 35%;*/
   width: 1000px;
   border: 10px solid rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  overflow: hidden;
+  overflow: auto;
   background-color: #e7936c;
 }
 
@@ -125,20 +126,36 @@ button {
   overflow: auto;
 }
 
+.messages::-webkit-scrollbar {
+  width: 10px;
+  background-color: #e7936c;
+}
+
+.messages::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: #aa2c06
+}
+
 .message {
   margin-bottom: 20px;
 }
 
-
-.message p {
+.message p{
   display: inline-flex;
   border-radius: 10px;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
-  background-color: #aa2c06;
   padding: 10px 15px 15px;
   color: #fff;
   margin-bottom: 2px;
   word-break: break-word;
+}
+
+.self-message p {
+  background-color: #649713a6;
+}
+
+.other p{
+  background-color: #ac421e;
 }
 
 .message span {
