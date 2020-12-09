@@ -4,21 +4,19 @@ import socket from '../socket';
 function Chat({ users, messages, userName, roomId, onAddMessage }) {
   const [messageValue, setMessageValue] = React.useState('');
   const messagesRef = React.useRef(null);
-  let currentUser = false;
-  const name = userName.trim()
-  if (currentUser === name){
-    currentUser = true
-  }
+  
+  let currentUser = false; const name = userName.trim()
+  if (currentUser === name) { currentUser = true }
+
   /* Check for empty input */
-  function checkInput (text) {
+  function checkInput(text) {
     console.log(users)
     // return /[^\s]/gim.test(tex);
     return text.trim() !== '';
  }
- function turnOnScroll(length){
-   if (length>6){
-   return "chat-users-scroll"
-  }
+
+ function turnOnScroll(length) {
+   if (length > 6) { return "chat-users-scroll" }
    else return "";
  }
 
@@ -30,28 +28,28 @@ function Chat({ users, messages, userName, roomId, onAddMessage }) {
       setMessageValue('');
     }
   };
-  const refreshPage = () => {
-    window.location.reload()
-} 
+
+  const refreshPage = () => { window.location.reload(); }
+
   const choosePosition = (message, user1, user2) => {
-    if (user1===user2){
-      return(
+    if (user1 === user2) { return (
       <div className="message self-message" align ="right">
-            <p>{message.text}</p>
-            <div>
-              <span>{message.userName}</span>
-            </div>
-      </div>)
-    }else{
-      return(
+        <p>{message.text}</p>
+        <div>
+          <span>{message.userName}</span>
+        </div>
+      </div>
+    )}
+    else { return (
       <div className="message other" >
-            <p>{message.text}</p>
-            <div>
-              <span>{message.userName}</span>
-            </div>
-      </div>)
-    }
+        <p>{message.text}</p>
+        <div>
+          <span>{message.userName}</span>
+        </div>
+      </div>
+    )}
   }
+
   /* Scrolls messages down */
   React.useEffect(() => { messagesRef.current.scrollTo(0, 99999) }, [messages]);
   
@@ -68,9 +66,7 @@ function Chat({ users, messages, userName, roomId, onAddMessage }) {
       </div>
       <div className="chat-messages">
         <div ref={messagesRef} className="messages">
-          {messages.map((message) => (
-            choosePosition(message, message.userName, userName)
-          ))}
+          { messages.map((message) => (choosePosition(message, message.userName, userName))) }
         </div>
         <form>
           <textarea
@@ -88,7 +84,6 @@ function Chat({ users, messages, userName, roomId, onAddMessage }) {
           </div>
         </form>
       </div>
-      
     </div>
   );
 }
