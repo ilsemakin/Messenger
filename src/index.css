@@ -8,6 +8,7 @@
 body {
   background-image: url(img/firewatch.jpg);
   background-size: cover;
+  overflow-y: hidden;
 }
 
 .send-image {
@@ -48,8 +49,8 @@ button {
 .wrapper {
   max-width: 40%;
   margin: 70px auto;
-  /* margin-left: 0px; */
   min-width: 720px;
+  margin-top: 30px; 
 }
 
 .join-block {
@@ -208,4 +209,83 @@ button {
   resize: none;
   width: 100%;
   margin-bottom: 10px;
+}
+
+.btn-success { 
+  border: #dd5b05; 
+} 
+  
+.btn-success:hover { 
+  box-shadow: inset 0 0 0 20rem #dd5b05; 
+  border: #dd5b05; 
+}
+
+@media screen and (min-width:240px) and (max-width:720px) {
+  h2 {
+    font-size: 20px;
+  }
+
+  .wrapper {
+    min-width: 320px;
+    margin-bottom: auto;
+  }
+
+  body {
+    background-image: url(https://oboivsegomira.ru/static/product/a9/337035068602d5ac4386c60548fa71a9_1.jpg);
+    background-size: cover;
+    overflow-y: hidden;
+  }
+
+  .btn-primary {
+    color: #aa2c06;
+    background-color: #ffffff00;
+    border-color: #000000;
+    border-radius: 15%;
+    position: relative;
+    padding: 5px 40px;
+    left: 180px
+  }
+  
+  .chat {
+    display: flex;
+    max-height: fit-content;
+    min-height: fit-content;
+    height: 850px;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    right: 10%;
+    width: 600px;
+    border: 10px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: auto;
+    background-color: #e7936c;
+  }
+
+  .chat-users {
+    border-right: 5px solid rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    width: 120px;
+    background-color: #e27c4d;
+  }
+  
+  .chat-messages {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+    padding: 10px;
+  }
+  
+  .chat-messages form {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .chat-messages form textarea {
+    resize: none;
+    width: 100%;
+    margin-bottom: 5px;
+  }
 }
