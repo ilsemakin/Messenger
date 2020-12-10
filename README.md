@@ -5,9 +5,9 @@
 
 ## How to start the application
 
-### `node server.js`
-
 ### `npm i && npm start`
+
+### `node server.js`
 
 ## Designed and developed by 
 
